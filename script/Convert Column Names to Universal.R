@@ -11,10 +11,14 @@
   #River Kilometer
 
 #import jsats and vemco test data sets
-library(dplyr)
-library(ggplot2)
+#library(dplyr)
+#library(ggplot2)
+#library(readr)
 
-library(readr)
+library(tidyverse) # tidyverse includes all three of the above packages
+library(readxl) # in case the data comes from an excel file, 'read_excel()' can parse data formats (ie times)
+library(here) # useful package for filing and recalling files
+
 jsats_det <- read_csv("C:/Users/cbolte/Desktop/R Projects/Telemetry-Data-Filters/CSVs/jsats data.csv")
 vemco_det <- read_csv("C:/Users/cbolte/Desktop/R Projects/Telemetry-Data-Filters/CSVs/vemco data.csv")
 
