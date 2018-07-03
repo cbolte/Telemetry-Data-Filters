@@ -43,7 +43,7 @@ matrix
 apply(matrix, 2, sum)
 apply(bad_final[,1:2], 2, sum)
 
-test_function <- function(df_detections, diff_rkm, x) { #this should act on a single row/column
+remove_errant_middle_detections <- function(df_detections, diff_rkm, x) { #this should act on a single row/column
   det <- df_detections #df_detections already has an index associated with it.
   det$validity <- NA #Make a new column that will have binary values, either 'V' (VALID) or 'I' (INVALID)
   df_x <- as.data.frame(x) #make a data.frame with the row and index easily accessible.
@@ -94,14 +94,14 @@ test_function <- function(df_detections, diff_rkm, x) { #this should act on a si
   #This will be the hardest part.
 
 
-input_function <- function(df_det, rkm_threshold) {
+execute_middle_detection_removal <- function(df_det, rkm_threshold) {
    df <- df_det
    df$index <- c(1:nrow(df)) #now have a data.frame with rkm, tag, and index
    df_matrix <- select(df, rkm, index) #select elements that will eventually use apply()
    matrix <- as.matrix(df_matrix) #convert new df into a matrix
    print(matrix)
-   result <- apply(matrix, 1, test_function, df_detections = df, diff_rkm = rkm_threshold)
-   print(result)
+   result <- apply(matrix, 1, remove_errant_middle_detections, df_detections = df, diff_rkm = rkm_threshold)
+   #print(result)
    final_result <- data.frame(matrix(unlist(result), nrow = nrow(df_det), byrow = TRUE), stringsAsFactors = TRUE)
    final_result <- select(final_result, rkm=X1, tag=X2, index=X3, validity=X4) #Names of your output data.frame columns
    #Not preserving the Letter values of the tags in the new data.frame, this would be easy to adjust. Not sure why this is happening?
